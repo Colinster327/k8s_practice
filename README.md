@@ -199,6 +199,7 @@ Delete the app resources, then delete the kind cluster (use the **same name** yo
 ```bash
 kubectl delete -f manifests/
 kind delete cluster --name k8s-practice
+rm -rf ~/.kube
 ```
 
 **linux/wsl:**
