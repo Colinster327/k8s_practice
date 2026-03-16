@@ -4,7 +4,7 @@ A minimal repo to run a real Kubernetes cluster locally with **kind** (with mult
 
 ## Prerequisites
 
-You need **kubectl** and **kind**. Install both for your platform below.
+You need **Docker**, **kubectl**, and **kind**. Install both for your platform below.
 
 ### Installing kubectl and kind
 
@@ -12,10 +12,34 @@ You need **kubectl** and **kind**. Install both for your platform below.
 
 ```bash
 # Homebrew (install from https://brew.sh if needed)
+# Docker should already be installed
 brew install kubectl kind
 ```
 
 #### Linux
+
+**docker:**
+```bash
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
 
 **kubectl:**
 
@@ -63,8 +87,16 @@ kind --version
 
 Create a **multi-node** cluster (1 control-plane node + 2 worker nodes) so you can see different node roles:
 
+**macOS**:
+
 ```bash
 kind create cluster --name k8s-practice --config kind-config.yaml
+```
+
+**linux/wsl**:
+
+```bash
+sudo kind create cluster --name k8s-practice --config kind-config.yaml
 ```
 
 Verify:
@@ -158,9 +190,18 @@ Refresh the browser and hit the URL a few times — you’ll get the same respon
 
 Delete the app resources, then delete the kind cluster (use the **same name** you used in step 1):
 
+**macOS:**
+
 ```bash
 kubectl delete -f manifests/
 kind delete cluster --name k8s-practice
+```
+
+**linux/wsl:**
+
+```bash
+kubectl delete -f manifests/
+sudo kind delete cluster --name k8s-practice
 ```
 
 To see your cluster name if you’re not sure: `kind get clusters`. Use that exact name in the delete command.
