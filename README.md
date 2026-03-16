@@ -10,9 +10,10 @@ You need **Docker**, **kubectl**, and **kind**. Install both for your platform b
 
 #### macOS (Unix)
 
+[Install Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
+
 ```bash
 # Homebrew (install from https://brew.sh if needed)
-# Docker should already be installed
 brew install kubectl kind
 ```
 
@@ -80,7 +81,7 @@ Verify:
 
 ```bash
 kubectl version --client
-kind --version
+(sudo) kind --version
 ```
 
 ## 1. Start a real Kubernetes cluster locally
