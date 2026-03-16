@@ -97,6 +97,9 @@ kind create cluster --name k8s-practice --config kind-config.yaml
 
 ```bash
 sudo kind create cluster --name k8s-practice --config kind-config.yaml
+mkdir -p ~/.kube
+sudo kind export kubeconfig --name k8s-practice --kubeconfig ~/.kube/config
+sudo chown 1000:1000 ~/.kube/config
 ```
 
 Verify:
@@ -202,6 +205,7 @@ kind delete cluster --name k8s-practice
 ```bash
 kubectl delete -f manifests/
 sudo kind delete cluster --name k8s-practice
+rm -rf ~/.kube
 ```
 
 To see your cluster name if you’re not sure: `kind get clusters`. Use that exact name in the delete command.
